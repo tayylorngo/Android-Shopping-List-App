@@ -39,5 +39,7 @@ public class MainActivity extends AppCompatActivity {
         itemsList.add(new ListItem());
         itemsList.add(new ListItem());
         itemsList.add(new ListItem());
+        itemsList.add(new ListItem());
+        itemsList.add(new ListItem());
     }
 }

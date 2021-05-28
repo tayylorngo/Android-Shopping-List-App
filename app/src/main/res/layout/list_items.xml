@@ -9,24 +9,26 @@
         android:id="@+id/nameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="304dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/itemImage"
+        app:layout_constraintVertical_bias="0.076" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/itemImage"
+        android:layout_width="134dp"
+        android:layout_height="109dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="7dp"
+        android:src="@drawable/food"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/categoryText"
@@ -37,7 +39,7 @@
         android:layout_marginBottom="19dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/priceText"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/itemImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -47,45 +49,43 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="19dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/itemImage"
         app:layout_constraintTop_toBottomOf="@+id/categoryText" />
 
     <CheckBox
         android:id="@+id/purchasedBox"
-        android:layout_width="111dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="36dp"
+        android:layout_width="104dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="19dp"
         android:layout_marginBottom="31dp"
-        android:text="CheckBox"
+        android:text="Purchased"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/detailsBtn"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/priceText" />
+        app:layout_constraintStart_toEndOf="@+id/itemImage"
+        app:layout_constraintTop_toBottomOf="@+id/priceText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/editBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="13dp"
-        android:text="Button"
+        android:layout_marginTop="16dp"
+        android:text="Edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toEndOf="@+id/purchasedBox"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/detailsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="40dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toEndOf="@+id/purchasedBox"
         app:layout_constraintTop_toBottomOf="@+id/editBtn"
-        app:layout_constraintVertical_bias="0.425" />
+        app:layout_constraintVertical_bias="0.09" />
+
 </android.support.constraint.ConstraintLayout>
