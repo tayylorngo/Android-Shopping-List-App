@@ -9,8 +9,8 @@ public class ListItem {
 
     public ListItem(){
         this.name = "Item 1";
-        this.category = "Food";
-        this.description = "Meh";
+        this.category = "Technology";
+        this.description = "Chicken & Broccoli";
         this.price = 6.6;
         this.purchased = false;
     }

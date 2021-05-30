@@ -1,34 +1,44 @@
 package com.taylorngo.shoppinglist;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
     private ArrayList<ListItem> itemsList;
+    Context context;
 
-    public RecyclerAdapter(ArrayList<ListItem> itemsList){
+    public RecyclerAdapter(Context ct, ArrayList<ListItem> itemsList){
         this.itemsList = itemsList;
+        this.context = ct;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView nameTxt;
-        private TextView categoryTxt;
         private TextView priceTxt;
+        private TextView descriptionTxt;
+        private ImageView itemImage;
+        private ConstraintLayout mainLayout;
 
         public MyViewHolder(final View view){
             super(view);
             nameTxt = view.findViewById(R.id.nameText);
-            categoryTxt = view.findViewById(R.id.categoryText);
             priceTxt = view.findViewById(R.id.priceText);
+            descriptionTxt = view.findViewById(R.id.descriptionText);
+            itemImage = view.findViewById(R.id.itemImage);
+            mainLayout = view.findViewById(R.id.list_item_row);
         }
     }
-
 
     @NonNull
     @Override
@@ -38,13 +48,44 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         ListItem item = itemsList.get(position);
+
         String name = item.getName();
         holder.nameTxt.setText(name);
+
+        String price = "$" + item.getPrice();
+        holder.priceTxt.setText(price);
+
+        String description = item.getDescription();
+        holder.descriptionTxt.setText(description);
+
         String category = item.getCategory();
-        holder.categoryTxt.setText(category);
-        double price = item.getPrice();
+        if(category.equals("Food")){
+            holder.itemImage.setImageResource(R.drawable.food);
+        }
+        else if(category.equals("Animal")){
+            holder.itemImage.setImageResource(R.drawable.animal);
+        }
+        else if(category.equals("Clothing")){
+            holder.itemImage.setImageResource(R.drawable.clothing);
+        }
+        else{
+            holder.itemImage.setImageResource(R.drawable.technology);
+        }
+
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+                ListItem temp = itemsList.get(position);
+                intent.putExtra("data1", temp.getName());
+                intent.putExtra("data2", temp.getDescription());
+                intent.putExtra("data3", "$" + temp.getPrice());
+                intent.putExtra("data4", temp.getCategory());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

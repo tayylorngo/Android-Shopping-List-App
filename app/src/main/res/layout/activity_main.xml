@@ -9,11 +9,25 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="106dp" />
+        android:layout_height="31dp" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Shopping List"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="37dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shoppingList"
         android:layout_width="match_parent"
-        android:layout_height="605dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

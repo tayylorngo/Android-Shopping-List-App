@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        RecyclerAdapter adapter = new RecyclerAdapter(itemsList);
+        RecyclerAdapter adapter = new RecyclerAdapter(this, itemsList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private void setItemInfo(){
         itemsList.add(new ListItem());
         itemsList.add(new ListItem());
-        itemsList.add(new ListItem());
-        itemsList.add(new ListItem());
-        itemsList.add(new ListItem());
+        itemsList.add(new ListItem("Gorilla", "Animal", "Harambe", 10000, false));
     }
 }
