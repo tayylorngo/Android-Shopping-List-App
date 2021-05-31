@@ -14,7 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="132dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/titleText"
@@ -35,10 +36,6 @@
             android:text="+" />
 
     </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="37dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shoppingList"

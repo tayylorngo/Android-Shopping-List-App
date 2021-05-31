@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         private TextView priceTxt;
         private TextView descriptionTxt;
         private ImageView itemImage;
+        private CheckBox purchasedBox;
         private ConstraintLayout mainLayout;
 
         public MyViewHolder(final View view){
@@ -36,6 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             priceTxt = view.findViewById(R.id.priceText);
             descriptionTxt = view.findViewById(R.id.descriptionText);
             itemImage = view.findViewById(R.id.itemImage);
+            purchasedBox = view.findViewById(R.id.purchasedBox);
             mainLayout = view.findViewById(R.id.list_item_row);
         }
     }
@@ -73,6 +76,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         else{
             holder.itemImage.setImageResource(R.drawable.technology);
         }
+
+        holder.purchasedBox.setChecked(item.isPurchased());
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override

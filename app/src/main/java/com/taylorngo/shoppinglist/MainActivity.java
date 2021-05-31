@@ -1,5 +1,6 @@
 package com.taylorngo.shoppinglist;
 
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,11 +11,12 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddItemDialog.AddItemDialogListener {
 
     private ArrayList<ListItem> itemsList;
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;
+    private AddItemDialog addItemDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addItem(){
-        itemsList.add(new ListItem());
-        adapter.notifyItemInserted(itemsList.size() - 1);
+        openAddItemDialog();
     }
 
     private void removeItem(){
 
+    }
+
+    public void openAddItemDialog(){
+        addItemDialog = new AddItemDialog();
+        addItemDialog.show(getSupportFragmentManager(), "Add Item Dialog");
+    }
+
+    @Override
+    public void applyTexts(String name, String price, String desc, boolean purchased, String category) {
+        if(price.trim().length() == 0){
+            price = "0";
+        }
+        ListItem newItem = new ListItem();
+        newItem.setName(name);
+        newItem.setPrice(Double.parseDouble(price));
+        newItem.setDescription(desc);
+        newItem.setPurchased(purchased);
+        newItem.setCategory(category);
+        itemsList.add(newItem);
+        adapter.notifyItemInserted(itemsList.size() - 1);
+        addItemDialog.dismiss();
     }
 }
