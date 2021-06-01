@@ -18,6 +18,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Name"
+        android:textStyle="bold"
         android:textSize="30sp" />
 
     <ImageView
@@ -48,5 +49,17 @@
         android:gravity="center"
         android:text="description"
         android:textSize="20sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="142dp" />
+
+    <TextView
+        android:id="@+id/isPurchasedText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="purchased" />
 
 </LinearLayout>

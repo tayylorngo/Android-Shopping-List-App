@@ -8,10 +8,10 @@ import android.widget.Toast;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    TextView name, description, price;
+    TextView name, description, price, purchased;
     ImageView itemImage;
 
-    String data1, data2, data3, data4;
+    String data1, data2, data3, data4, data5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +21,20 @@ public class DetailsActivity extends AppCompatActivity {
         description = findViewById(R.id.descriptionTxt);
         price = findViewById(R.id.priceTxt);
         itemImage = findViewById(R.id.detailedImage);
+        purchased = findViewById(R.id.isPurchasedText);
         getData();
         setData();
     }
 
     private void getData(){
         if(getIntent().hasExtra("data1") && getIntent().hasExtra("data2")
-                && getIntent().hasExtra("data3")){
+                && getIntent().hasExtra("data3") && getIntent().hasExtra("data4")
+                && getIntent().hasExtra("data5")){
             data1 = getIntent().getStringExtra("data1");
             data2 = getIntent().getStringExtra("data2");
             data3 = getIntent().getStringExtra("data3");
             data4 = getIntent().getStringExtra("data4");
+            data5 = getIntent().getStringExtra("data5");
         }
         else{
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
@@ -54,6 +57,12 @@ public class DetailsActivity extends AppCompatActivity {
         else{
             itemImage.setImageResource(R.drawable.technology);
         }
-
+        boolean isPurchased = Boolean.parseBoolean(data5);
+        if(isPurchased){
+            purchased.setText("Purchased");
+        }
+        else{
+            purchased.setText("Not Purchased");
+        }
     }
 }

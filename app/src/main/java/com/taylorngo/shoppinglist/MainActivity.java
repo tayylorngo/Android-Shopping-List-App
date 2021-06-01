@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
     private Cursor getAllItems(){
         return myDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
                 null, null, null, null, null,
-                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " DESC"
+                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " ASC"
         );
     }
 

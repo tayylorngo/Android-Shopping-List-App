@@ -1,6 +1,7 @@
 package com.taylorngo.shoppinglist;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,12 +22,10 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
-    private ArrayList<ListItem> itemsList;
     private Context context;
     private Cursor mCursor;
 
     public RecyclerAdapter(Context ct, Cursor cursor){
-        this.itemsList = itemsList;
         this.mCursor = cursor;
         this.context = ct;
     }
@@ -98,6 +97,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
 
         holder.purchasedBox.setChecked(Boolean.parseBoolean(purchased));
+        holder.purchasedBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase mDatabase = MainActivity.getMyDatabase();
+                boolean checked = holder.purchasedBox.isChecked();
+                ContentValues cv = new ContentValues();
+                cv.put(ListDatabase.ListItemEntry.COLUMN_NAME, name);
+                cv.put(ListDatabase.ListItemEntry.COLUMN_CATEGORY, category);
+                cv.put(ListDatabase.ListItemEntry.COLUMN_PRICE, price);
+                cv.put(ListDatabase.ListItemEntry.COLUMN_DESCRIPTION, description);
+                if(checked){
+                    cv.put(ListDatabase.ListItemEntry.COLUMN_PURCHASED, String.valueOf(true));
+                }
+                else{
+                    cv.put(ListDatabase.ListItemEntry.COLUMN_PURCHASED, String.valueOf(false));
+                }
+                mDatabase.update(ListDatabase.ListItemEntry.TABLE_NAME, cv, "_id=?", new String[]{String.valueOf(id)});
+                MainActivity.getAdapter().swapCursor(mDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
+                        null, null, null, null, null,
+                        ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " ASC"
+                ));
+            }
+        });
 
         holder.toggleDetails.setTextOff("Show details");
         holder.toggleDetails.setTextOn("Hide details");
@@ -128,6 +150,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 intent.putExtra("data2", description);
                 intent.putExtra("data3", price2);
                 intent.putExtra("data4", category);
+                intent.putExtra("data5", purchased);
                 context.startActivity(intent);
             }
         });
@@ -139,7 +162,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 ListDatabase.ListItemEntry._ID + "=" + id, null);
         MainActivity.getAdapter().swapCursor(mDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
                 null, null, null, null, null,
-                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " DESC"
+                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " ASC"
         ));
     }
 
