@@ -36,7 +36,7 @@
         android:id="@+id/nameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="19dp"
         android:layout_marginBottom="19dp"
         android:text="TextView"
@@ -48,7 +48,7 @@
         android:id="@+id/priceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/itemImage"
@@ -56,16 +56,15 @@
 
     <CheckBox
         android:id="@+id/purchasedBox"
-        android:layout_width="104dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="31dp"
         android:text="Purchased"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/itemImage"
         app:layout_constraintTop_toBottomOf="@+id/priceText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/editBtn"
@@ -74,18 +73,20 @@
         android:layout_marginTop="16dp"
         android:text="Edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toEndOf="@+id/purchasedBox"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
         android:id="@+id/detailsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="126dp"
+        android:layout_height="49dp"
         android:text="Button"
+        android:textOff="show details"
+        android:textOn="hide details"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toEndOf="@+id/purchasedBox"
         app:layout_constraintTop_toBottomOf="@+id/editBtn"
         app:layout_constraintVertical_bias="0.09" />
