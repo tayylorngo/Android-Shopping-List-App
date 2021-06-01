@@ -1,6 +1,9 @@
 package com.taylorngo.shoppinglist;
 
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,10 +21,15 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
     private RecyclerAdapter adapter;
     private AddItemDialog addItemDialog;
 
+    private SQLiteDatabase myDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ListDBHelper dbHelper = new ListDBHelper(this);
+        myDatabase = dbHelper.getWritableDatabase();
 
         recyclerView = findViewById(R.id.shoppingList);
 
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
     }
 
     private void setAdapter() {
-        adapter = new RecyclerAdapter(this, itemsList);
+        adapter = new RecyclerAdapter(this, getAllItems());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -50,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
         itemsList.add(new ListItem());
         itemsList.add(new ListItem());
         itemsList.add(new ListItem("Gorilla", "Animal", "Harambe", 10000, false));
+    }
+
+    private Cursor getAllItems(){
+        return myDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
+                null, null, null, null, null,
+                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " DESC"
+        );
     }
 
     private void addItem(){
@@ -76,8 +91,17 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
         newItem.setDescription(desc);
         newItem.setPurchased(purchased);
         newItem.setCategory(category);
-        itemsList.add(newItem);
-        adapter.notifyItemInserted(itemsList.size() - 1);
+
+        ContentValues cv = new ContentValues();
+        cv.put(ListDatabase.ListItemEntry.COLUMN_NAME, name);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_CATEGORY, category);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_PRICE, price);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_DESCRIPTION, desc);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_PURCHASED, String.valueOf(purchased));
+        myDatabase.insert(ListDatabase.ListItemEntry.TABLE_NAME, null, cv);
+        adapter.swapCursor(getAllItems());
+//        itemsList.add(newItem);
+//        adapter.notifyItemInserted(itemsList.size() - 1);
         addItemDialog.dismiss();
     }
 }

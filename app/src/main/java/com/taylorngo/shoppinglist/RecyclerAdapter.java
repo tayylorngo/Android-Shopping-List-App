@@ -3,6 +3,7 @@ package com.taylorngo.shoppinglist;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +20,12 @@ import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
     private ArrayList<ListItem> itemsList;
-    Context context;
+    private Context context;
+    private Cursor mCursor;
 
-    public RecyclerAdapter(Context ct, ArrayList<ListItem> itemsList){
+    public RecyclerAdapter(Context ct, Cursor cursor){
         this.itemsList = itemsList;
+        this.mCursor = cursor;
         this.context = ct;
     }
 
@@ -56,19 +59,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        ListItem item = itemsList.get(position);
+        if(!mCursor.moveToPosition(position)){
+            return;
+        }
 
-        String name = item.getName();
+        String name = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_NAME));
+        double price = mCursor.getDouble(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_PRICE));
+        String description = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_DESCRIPTION));
+        String category = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_CATEGORY));
+        String purchased = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_PURCHASED));
+
+//        ListItem item = itemsList.get(position);
+
+//        String name = item.getName();
         holder.nameTxt.setText(name);
 
-        String price = "$" + item.getPrice();
-        holder.priceTxt.setText(price);
+        String price2 = "$" + price;
+        holder.priceTxt.setText(price2);
 
-        String description = item.getDescription();
+//        String description = item.getDescription();
         holder.descriptionTxt.setText(description);
         holder.descriptionTxt.setVisibility(View.INVISIBLE);
 
-        String category = item.getCategory();
+//        String category = item.getCategory();
         if(category.equals("Food")){
             holder.itemImage.setImageResource(R.drawable.food);
         }
@@ -82,7 +95,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.itemImage.setImageResource(R.drawable.technology);
         }
 
-        holder.purchasedBox.setChecked(item.isPurchased());
+        holder.purchasedBox.setChecked(Boolean.parseBoolean(purchased));
 
         holder.toggleDetails.setTextOff("Show details");
         holder.toggleDetails.setTextOn("Hide details");
@@ -102,11 +115,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailsActivity.class);
-                ListItem temp = itemsList.get(position);
-                intent.putExtra("data1", temp.getName());
-                intent.putExtra("data2", temp.getDescription());
-                intent.putExtra("data3", "$" + temp.getPrice());
-                intent.putExtra("data4", temp.getCategory());
+//                ListItem temp = itemsList.get(position);
+                intent.putExtra("data1", name);
+                intent.putExtra("data2", description);
+                intent.putExtra("data3", price2);
+                intent.putExtra("data4", category);
                 context.startActivity(intent);
             }
         });
@@ -114,6 +127,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return itemsList.size();
+        return mCursor.getCount();
+    }
+
+    public void swapCursor(Cursor newCursor){
+        if(mCursor != null){
+            mCursor.close();
+        }
+        mCursor = newCursor;
+        if(newCursor != null){
+            notifyDataSetChanged();
+        }
     }
 }
