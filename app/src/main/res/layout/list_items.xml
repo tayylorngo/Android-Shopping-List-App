@@ -91,4 +91,19 @@
         app:layout_constraintTop_toBottomOf="@+id/editBtn"
         app:layout_constraintVertical_bias="0.09" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/deleteItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:clickable="true"
+        android:scaleType="center"
+        app:backgroundTint="#DD0F0F"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.745"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+
 </android.support.constraint.ConstraintLayout>

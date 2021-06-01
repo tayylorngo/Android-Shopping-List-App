@@ -1,6 +1,4 @@
 package com.taylorngo.shoppinglist;
-
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,16 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AddItemDialog.AddItemDialogListener {
 
-    private ArrayList<ListItem> itemsList;
     private RecyclerView recyclerView;
-    private RecyclerAdapter adapter;
+    private static RecyclerAdapter adapter;
     private AddItemDialog addItemDialog;
 
-    private SQLiteDatabase myDatabase;
+    private static SQLiteDatabase myDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
 
         recyclerView = findViewById(R.id.shoppingList);
 
-        itemsList = new ArrayList<>();
-
         Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
                 addItem();
             }
         });
-        setItemInfo();
         setAdapter();
     }
 
@@ -54,12 +47,6 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
         recyclerView.setAdapter(adapter);
     }
 
-    private void setItemInfo(){
-        itemsList.add(new ListItem());
-        itemsList.add(new ListItem());
-        itemsList.add(new ListItem("Gorilla", "Animal", "Harambe", 10000, false));
-    }
-
     private Cursor getAllItems(){
         return myDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
                 null, null, null, null, null,
@@ -69,10 +56,6 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
 
     private void addItem(){
         openAddItemDialog();
-    }
-
-    private void removeItem(){
-
     }
 
     public void openAddItemDialog(){
@@ -100,8 +83,14 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
         cv.put(ListDatabase.ListItemEntry.COLUMN_PURCHASED, String.valueOf(purchased));
         myDatabase.insert(ListDatabase.ListItemEntry.TABLE_NAME, null, cv);
         adapter.swapCursor(getAllItems());
-//        itemsList.add(newItem);
-//        adapter.notifyItemInserted(itemsList.size() - 1);
         addItemDialog.dismiss();
+    }
+
+    public static SQLiteDatabase getMyDatabase(){
+        return myDatabase;
+    }
+
+    public static RecyclerAdapter getAdapter(){
+        return adapter;
     }
 }

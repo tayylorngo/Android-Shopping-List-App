@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         private ImageView itemImage;
         private CheckBox purchasedBox;
         private ToggleButton toggleDetails;
+        private FloatingActionButton deleteItemBtn;
         private ConstraintLayout mainLayout;
 
         public MyViewHolder(final View view){
@@ -46,6 +49,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             itemImage = view.findViewById(R.id.itemImage);
             purchasedBox = view.findViewById(R.id.purchasedBox);
             toggleDetails = view.findViewById(R.id.detailsBtn);
+            deleteItemBtn = view.findViewById(R.id.deleteItemButton);
             mainLayout = view.findViewById(R.id.list_item_row);
         }
     }
@@ -69,19 +73,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         String category = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_CATEGORY));
         String purchased = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_PURCHASED));
 
-//        ListItem item = itemsList.get(position);
+        long id = mCursor.getLong(mCursor.getColumnIndex(ListDatabase.ListItemEntry._ID));
+        holder.itemView.setTag(id);
 
-//        String name = item.getName();
         holder.nameTxt.setText(name);
 
         String price2 = "$" + price;
         holder.priceTxt.setText(price2);
 
-//        String description = item.getDescription();
         holder.descriptionTxt.setText(description);
         holder.descriptionTxt.setVisibility(View.INVISIBLE);
 
-//        String category = item.getCategory();
         if(category.equals("Food")){
             holder.itemImage.setImageResource(R.drawable.food);
         }
@@ -111,11 +113,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             }
         });
 
+        holder.deleteItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteItem(id);
+            }
+        });
+
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailsActivity.class);
-//                ListItem temp = itemsList.get(position);
                 intent.putExtra("data1", name);
                 intent.putExtra("data2", description);
                 intent.putExtra("data3", price2);
@@ -123,6 +131,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 context.startActivity(intent);
             }
         });
+    }
+
+    public void deleteItem(long id){
+        SQLiteDatabase mDatabase = MainActivity.getMyDatabase();
+        mDatabase.delete(ListDatabase.ListItemEntry.TABLE_NAME,
+                ListDatabase.ListItemEntry._ID + "=" + id, null);
+        MainActivity.getAdapter().swapCursor(mDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
+                null, null, null, null, null,
+                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " DESC"
+        ));
     }
 
     @Override

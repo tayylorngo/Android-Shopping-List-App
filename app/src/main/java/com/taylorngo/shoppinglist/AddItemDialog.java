@@ -43,8 +43,6 @@ public class AddItemDialog extends AppCompatDialogFragment {
         editTextCategory = view.findViewById(R.id.editCategory);
 
         String[] categories = {"Animal", "Clothing", "Food", "Technology"};
-//        ArrayList<String> categories2 = new ArrayList<String>();
-//        categories2.addAll(Arrays.asList(categories));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (getContext(), android.R.layout.simple_list_item_1, categories);
