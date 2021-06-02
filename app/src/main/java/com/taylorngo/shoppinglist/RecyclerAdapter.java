@@ -129,6 +129,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         holder.toggleDetails.setTextOff("Show details");
         holder.toggleDetails.setTextOn("Hide details");
+        if(holder.toggleDetails.isChecked()){
+            holder.descriptionTxt.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.descriptionTxt.setVisibility(View.INVISIBLE);
+        }
         holder.toggleDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -62,13 +62,13 @@ public class EditItemDialog extends AppCompatDialogFragment {
 
         String[] categories = {"Animal", "Clothing", "Food", "Technology"};
         editTextCategory = view.findViewById(R.id.categoryEdit);
-        ArrayList<String> categories2 = new ArrayList<String>(Arrays.asList(categories));
-        editTextCategory.setSelection(categories2.indexOf(item.getCategory()));
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (getContext(), android.R.layout.simple_list_item_1, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editTextCategory.setAdapter(adapter);
+
+        ArrayList<String> categories2 = new ArrayList<>(Arrays.asList(categories));
+        editTextCategory.setSelection(categories2.indexOf(item.getCategory()));
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
