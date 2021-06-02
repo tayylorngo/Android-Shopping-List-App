@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class MainActivity extends AppCompatActivity implements AddItemDialog.AddItemDialogListener {
+public class MainActivity extends AppCompatActivity implements AddItemDialog.AddItemDialogListener, EditItemDialog.EditItemDialogListener {
 
     private RecyclerView recyclerView;
     private static RecyclerAdapter adapter;
@@ -92,5 +92,18 @@ public class MainActivity extends AppCompatActivity implements AddItemDialog.Add
 
     public static RecyclerAdapter getAdapter(){
         return adapter;
+    }
+
+    @Override
+    public void applyTexts(String name, String price, String desc, boolean purchased, String category, long itemId) {
+        ContentValues cv = new ContentValues();
+        cv.put(ListDatabase.ListItemEntry.COLUMN_NAME, name);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_CATEGORY, category);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_PRICE, price);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_DESCRIPTION, desc);
+        cv.put(ListDatabase.ListItemEntry.COLUMN_PURCHASED, String.valueOf(purchased));
+        myDatabase.update(ListDatabase.ListItemEntry.TABLE_NAME, cv, "_id=?", new String[]{String.valueOf(itemId)});
+        adapter.swapCursor(getAllItems());
+        adapter.getEditItemDialog().dismiss();
     }
 }

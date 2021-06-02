@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
     private Context context;
     private Cursor mCursor;
+    private EditItemDialog editItemDialog;
 
     public RecyclerAdapter(Context ct, Cursor cursor){
         this.mCursor = cursor;
@@ -38,6 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         private CheckBox purchasedBox;
         private ToggleButton toggleDetails;
         private FloatingActionButton deleteItemBtn;
+        private Button editButton;
         private ConstraintLayout mainLayout;
 
         public MyViewHolder(final View view){
@@ -49,6 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             purchasedBox = view.findViewById(R.id.purchasedBox);
             toggleDetails = view.findViewById(R.id.detailsBtn);
             deleteItemBtn = view.findViewById(R.id.deleteItemButton);
+            editButton = view.findViewById(R.id.editBtn);
             mainLayout = view.findViewById(R.id.list_item_row);
         }
     }
@@ -154,6 +158,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 context.startActivity(intent);
             }
         });
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openEditDialog(id);
+            }
+        });
+    }
+
+    public void openEditDialog(long id){
+        editItemDialog = new EditItemDialog(id);
+        editItemDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "Edit Item Dialog");
     }
 
     public void deleteItem(long id){
@@ -179,5 +195,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         if(newCursor != null){
             notifyDataSetChanged();
         }
+    }
+
+    public EditItemDialog getEditItemDialog(){
+        return editItemDialog;
     }
 }
