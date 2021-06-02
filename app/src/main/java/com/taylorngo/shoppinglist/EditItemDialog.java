@@ -14,6 +14,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class EditItemDialog extends AppCompatDialogFragment {
     private EditText editTextName;
     private EditText editTextPrice;
@@ -23,15 +26,17 @@ public class EditItemDialog extends AppCompatDialogFragment {
     private Spinner editTextCategory;
     private EditItemDialog.EditItemDialogListener listener;
     private long itemId;
+    private ListItem item;
 
     public EditItemDialog(){
 
     }
 
     @SuppressLint("ValidFragment")
-    public EditItemDialog(long id){
+    public EditItemDialog(long id, ListItem item){
         super();
         this.itemId = id;
+        this.item = item;
     }
 
     @Override
@@ -42,13 +47,23 @@ public class EditItemDialog extends AppCompatDialogFragment {
         builder.setView(view).setTitle("Edit Item");
 
         editTextName = view.findViewById(R.id.nameEdit);
+        editTextName.setText(item.getName());
+
         editTextPrice = view.findViewById(R.id.priceEdit);
+        editTextPrice.setText(String.valueOf(item.getPrice()));
+
         editTextDesc = view.findViewById(R.id.descriptionEdit);
+        editTextDesc.setText(item.getDescription());
+
         purchasedBox = view.findViewById(R.id.purchasedEdit);
+        purchasedBox.setChecked(item.isPurchased());
+
         saveButton = view.findViewById(R.id.saveEditButton);
-        editTextCategory = view.findViewById(R.id.categoryEdit);
 
         String[] categories = {"Animal", "Clothing", "Food", "Technology"};
+        editTextCategory = view.findViewById(R.id.categoryEdit);
+        ArrayList<String> categories2 = new ArrayList<String>(Arrays.asList(categories));
+        editTextCategory.setSelection(categories2.indexOf(item.getCategory()));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (getContext(), android.R.layout.simple_list_item_1, categories);

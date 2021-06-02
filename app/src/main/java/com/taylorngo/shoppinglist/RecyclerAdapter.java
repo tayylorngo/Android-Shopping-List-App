@@ -76,6 +76,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         String category = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_CATEGORY));
         String purchased = mCursor.getString(mCursor.getColumnIndex(ListDatabase.ListItemEntry.COLUMN_PURCHASED));
 
+        ListItem tempItem = new ListItem(name, category, description, price, Boolean.parseBoolean(purchased));
+
         long id = mCursor.getLong(mCursor.getColumnIndex(ListDatabase.ListItemEntry._ID));
         holder.itemView.setTag(id);
 
@@ -162,13 +164,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEditDialog(id);
+                openEditDialog(id, tempItem);
             }
         });
     }
 
-    public void openEditDialog(long id){
-        editItemDialog = new EditItemDialog(id);
+    public void openEditDialog(long id, ListItem item){
+        editItemDialog = new EditItemDialog(id, item);
         editItemDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "Edit Item Dialog");
     }
 
