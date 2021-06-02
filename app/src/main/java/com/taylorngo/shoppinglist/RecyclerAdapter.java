@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -120,10 +121,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     cv.put(ListDatabase.ListItemEntry.COLUMN_PURCHASED, String.valueOf(false));
                 }
                 mDatabase.update(ListDatabase.ListItemEntry.TABLE_NAME, cv, "_id=?", new String[]{String.valueOf(id)});
-                MainActivity.getAdapter().swapCursor(mDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
-                        null, null, null, null, null,
-                        ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " ASC"
-                ));
+                MainActivity.reQuery();
             }
         });
 
@@ -184,10 +182,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         SQLiteDatabase mDatabase = MainActivity.getMyDatabase();
         mDatabase.delete(ListDatabase.ListItemEntry.TABLE_NAME,
                 ListDatabase.ListItemEntry._ID + "=" + id, null);
-        MainActivity.getAdapter().swapCursor(mDatabase.query(ListDatabase.ListItemEntry.TABLE_NAME,
-                null, null, null, null, null,
-                ListDatabase.ListItemEntry.COLUMN_TIMESTAMP +  " ASC"
-        ));
+        MainActivity.reQuery();
     }
 
     @Override

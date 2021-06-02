@@ -20,7 +20,7 @@ public class ListDBHelper extends SQLiteOpenHelper {
                 ListItemEntry.TABLE_NAME + " (" +
                 ListItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ListItemEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                ListItemEntry.COLUMN_PRICE + " TEXT NOT NULL, " +
+                ListItemEntry.COLUMN_PRICE + " DOUBLE NOT NULL, " +
                 ListItemEntry.COLUMN_CATEGORY + " TEXT NOT NULL, " +
                 ListItemEntry.COLUMN_PURCHASED + " TEXT NOT NULL, " +
                 ListItemEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +

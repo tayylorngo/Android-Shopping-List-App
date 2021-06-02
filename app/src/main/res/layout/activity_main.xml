@@ -9,11 +9,32 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="31dp" />
+        android:layout_height="11dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="132dp"
+        android:layout_height="25dp"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="35dp"
+            android:layout_height="26dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/ic_baseline_more_vert_24"
+            tools:ignore="VectorDrawableCompat" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
         android:orientation="horizontal"
         android:padding="16dp">
 

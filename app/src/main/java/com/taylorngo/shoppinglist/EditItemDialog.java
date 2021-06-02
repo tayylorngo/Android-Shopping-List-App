@@ -28,9 +28,7 @@ public class EditItemDialog extends AppCompatDialogFragment {
     private long itemId;
     private ListItem item;
 
-    public EditItemDialog(){
-
-    }
+    public EditItemDialog(){}
 
     @SuppressLint("ValidFragment")
     public EditItemDialog(long id, ListItem item){
