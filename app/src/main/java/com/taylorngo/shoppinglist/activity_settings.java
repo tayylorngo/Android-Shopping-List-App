@@ -29,7 +29,7 @@ public class activity_settings extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String currSortField = sharedPreferences.getString(SORT, "");
-        String currSortOrder = sharedPreferences.getString(SORT, "");
+        String currSortOrder = sharedPreferences.getString(SORT_ORDER, "");
 
         String[] sortOptions = {"default", "name", "price", "purchased status"};
         String[] sortOrders = {"ascending", "descending"};
